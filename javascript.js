@@ -29,11 +29,31 @@ let operate = (firstNum, secondNum, operator) => {
 
 const buttonListener = () => {
     const whichButton = document.querySelectorAll('button');
+    
     whichButton.forEach((button) => {
-    button.addEventListener('click', () => {
-        display.textContent+=(button.textContent);
-        displayNumber = display.textContent;
-    });
+        const buttonNumber = button.textContent;
+        button.addEventListener('click', () => {
+            
+            if(/^[0-9]+$/.test(buttonNumber)){
+            display.textContent+=(buttonNumber);
+            displayNumber = Number(display.textContent);
+
+
+            }else if (/[+\-/*]/.test(buttonNumber)){
+                firstNum = displayNumber;
+                operator = buttonNumber;
+                display.textContent = null;
+
+
+            }else if (/=/.test(buttonNumber)){
+                secondNum = displayNumber;
+                display.textContent = operate(firstNum, secondNum, operator);
+
+
+            }else if (buttonNumber==="clear"){
+                console.log(buttonNumber);
+            }
+        });
 });
 }
 
