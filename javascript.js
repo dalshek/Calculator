@@ -1,8 +1,10 @@
 //------------GLOBAL VARIABLES----------------//
-let firstNum=0;
-let secondNum=0;
-let operator='';
+let firstNum=null;
+let secondNum=null;
+let operator=null;
+let firstResult=null;
 const display = document.querySelector('#display');
+let opDisplay = document.querySelector('#opDisplay');
 let displayNumber = 0;
 
 //------------OPERATION FUNCTIONS--------------//
@@ -32,26 +34,39 @@ const buttonListener = () => {
     
     whichButton.forEach((button) => {
         const buttonNumber = button.textContent;
+
         button.addEventListener('click', () => {
-            
+
             if(/^[0-9]+$/.test(buttonNumber)){
             display.textContent+=(buttonNumber);
             displayNumber = Number(display.textContent);
 
 
             }else if (/[+\-/*]/.test(buttonNumber)){
-                firstNum = displayNumber;
-                operator = buttonNumber;
-                display.textContent = null;
+                opDisplay.textContent = displayNumber + " " + buttonNumber;
+                if(operator === null){
+                    firstNum = displayNumber;
+                    operator = buttonNumber;
+                    display.textContent = null;
+                }else{
+                    secondNum = displayNumber;
+                    firstNum=(operate(firstNum, secondNum, operator));
+                    operator = buttonNumber;
+                    display.textContent = null;
+                }
 
 
             }else if (/=/.test(buttonNumber)){
+                opDisplay.textContent += secondNum;
                 secondNum = displayNumber;
                 display.textContent = operate(firstNum, secondNum, operator);
 
 
             }else if (buttonNumber==="clear"){
-                console.log(buttonNumber);
+                firstNum = null;
+                secondNum = null;
+                operator = null;
+                display.textContent = null;
             }
         });
 });
